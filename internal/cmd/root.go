@@ -30,7 +30,4 @@ func init() {
 
 	// Root Flags
 	rootCmd.Flags().BoolP("version", "v", false, "Get the version of the git-vibe plugin") // overrides default msg
-
-	// Register Commands
-	rootCmd.AddCommand(newVersionCmd().cmd)
 }

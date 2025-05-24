@@ -8,19 +8,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type versionCmd struct {
-	cmd *cobra.Command
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Args:  validators.NoArgs(),
+	Short: "Get the version of the git-vibe plugin",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println(version.String())
+	},
 }
 
-func newVersionCmd() *versionCmd {
-	return &versionCmd{
-		cmd: &cobra.Command{
-			Use:   "version",
-			Args:  validators.NoArgs(),
-			Short: "Get the version of the git-vibe plugin",
-			Run: func(cmd *cobra.Command, args []string) {
-				fmt.Println(version.String())
-			},
-		},
-	}
+func init() {
+	rootCmd.AddCommand(versionCmd)
 }
