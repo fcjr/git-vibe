@@ -2,6 +2,8 @@ project_name: git-vibe
 before:
   hooks:
     - go mod tidy
+    - ./scripts/completions.sh
+    - ./scripts/manpages.sh
 builds:
   - id: git-vibe
     main: ./cmd/git-vibe
@@ -54,6 +56,11 @@ brews:
     description: git-vibe is a git plugin that uses an llm to help with common git tasks
     install: |
       bin.install "git-vibe"
+    extra_install: |-
+      bash_completion.install "completions/git-vibe.bash" => "git-vibe"
+      zsh_completion.install "completions/git-vibe.zsh" => "_git-vibe"
+      fish_completion.install "completions/git-vibe.fish"
+      man1.install "manpages/git-vibe.1.gz"
 scoops:
   -
     repository:
