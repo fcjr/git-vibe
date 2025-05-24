@@ -19,7 +19,8 @@ builds:
       - goos: windows
         goarch: arm64
 archives:
-  - format: tar.gz
+  - formats:
+      - tar.gz
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -29,13 +30,22 @@ archives:
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     format_overrides:
       - goos: windows
-        format: zip
+        formats:
+          - 'zip'
+    builds_info:
+      group: root
+      owner: root
+    files:
+      - README.md
+      - LICENSE
+      - completions/*
+      - manpages/*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ .Tag }}-next"
 nfpms:
-  - builds:
+  - ids:
       - git-vibe
     vendor: Frank Chiarulli Jr.
     homepage: https://github.com/fcjr/git-vibe
