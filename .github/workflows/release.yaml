@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   goreleaser:
-    runs-on: ubuntu-20.04 # required for when we want to build snaps
+    runs-on: ubuntu-latest
     steps:
       -
         name: Checkout
