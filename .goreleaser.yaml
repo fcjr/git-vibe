@@ -1,0 +1,72 @@
+project_name: git-vibe
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - id: git-vibe
+    main: ./cmd/git-vibe
+    ldflags:
+      - -s -w -X github.com/fcjr/git-vibe/internal/version.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    ignore:
+      - goos: windows
+        goarch: arm64
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+nfpms:
+  - builds:
+      - git-vibe
+    vendor: Frank Chiarulli Jr.
+    homepage: https://github.com/fcjr/git-vibe
+    maintainer: Frank Chiarulli Jr. <frank@frankchiarulli.com>
+    description: git-vibe is a git plugin that uses an llm to help with common git tasks.
+    formats:
+      - deb
+      - rpm
+      - apk
+brews:
+  - repository:
+      owner: fcjr
+      name: homebrew-fcjr
+    commit_author:
+      name: Frank Chiarulli Jr.
+      email: frank@frankchiarulli.com
+    homepage: https://github.com/fcjr/git-vibe
+    description: git-vibe is a git plugin that uses an llm to help with common git tasks
+    install: |
+      bin.install "git-vibe"
+scoops:
+  -
+    repository:
+      owner: fcjr
+      name: scoop-fcjr
+    commit_author:
+      name: Frank Chiarulli Jr.
+      email: frank@frankchiarulli.com
+    homepage: https://github.com/fcjr/git-vibe
+    description: git-vibe is a git plugin that uses an llm to help with common git tasks
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
